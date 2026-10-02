@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="vi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mặt số vòng quay A4 – Hôm nay ăn gì?</title>
+<style>
+/* Mặt số in khổ A4 để đặt lên vòng LED 12 bóng (kiểu vòng quay "Mặt số cố định").
+   Số n nằm đúng chỗ đèn LED thứ n: số 1 ở vị trí 12 giờ, tăng theo chiều kim đồng hồ. */
+@font-face{font-family:BV;font-weight:400;src:url(phong_chu/BeVietnamPro-Regular.ttf)}
+@font-face{font-family:BV;font-weight:600;src:url(phong_chu/BeVietnamPro-SemiBold.ttf)}
+@font-face{font-family:BV;font-weight:700;src:url(phong_chu/BeVietnamPro-Bold.ttf)}
+@font-face{font-family:BV;font-weight:800;src:url(phong_chu/BeVietnamPro-ExtraBold.ttf)}
+@page{size:A4;margin:0}
+html,body{margin:0;padding:0}
+text{font-family:BV,sans-serif;fill:#18251D}
+.trang{display:block;width:210mm;height:297mm}
+.thanh{display:none}
+@media screen{
+  body{background:#E9EDE7;font-family:BV,system-ui,sans-serif;color:#18251D}
+  .thanh{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;max-width:210mm;margin:0 auto;padding:16px 16px 0}
+  .thanh p{margin:0;flex:1;min-width:240px;font-size:14px;line-height:1.5}
+  .thanh button{font:inherit;font-weight:700;border:0;border-radius:999px;background:#1E5B3A;color:#fff;padding:10px 20px;cursor:pointer}
+  .trang{width:min(210mm,calc(100vw - 32px));height:auto;margin:16px auto 24px;background:#fff;box-shadow:0 4px 18px rgba(0,0,0,.15)}
+}
+@media print{*{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+</style></head><body>
+<div class="thanh"><p><b>In mặt số khổ A4, tỉ lệ 100%</b> (tắt "Vừa trang"/"Fit to page"). Đặt tâm mặt số trùng tâm vòng LED,
+số 1 ở trên cùng. Bấm Thử LED trong Cài đặt: đèn đỏ phải nằm ở số 1, đèn xanh ở số 2.</p><button type="button" onclick="print()">In mặt số</button></div>
+<svg class="trang" viewBox="0 0 210 297" xmlns="http://www.w3.org/2000/svg">
+<rect width="210" height="297" fill="#fff"/>
+<g transform="translate(14 9) scale(0.17)">
+  <line x1="50" y1="20" x2="50" y2="9" stroke="#18251D" stroke-width="3.5" stroke-linecap="round"/>
+  <circle cx="50" cy="7" r="6" fill="#F2B705"/>
+  <rect x="4" y="42" width="13" height="26" rx="6" fill="#2B59A6"/><rect x="83" y="42" width="13" height="26" rx="6" fill="#2B59A6"/>
+  <rect x="11.5" y="19.5" width="77" height="73" rx="25.5" fill="#fff" stroke="#18251D" stroke-width="3"/>
+  <rect x="20" y="31" width="60" height="46" rx="18" fill="#16202E"/>
+  <path d="M31 52a7 7 0 0 1 14 0M55 52a7 7 0 0 1 14 0" fill="none" stroke="#5EE2E8" stroke-width="3.4" stroke-linecap="round"/>
+  <path d="M40 63a10 7 0 0 0 20 0" fill="none" stroke="#5EE2E8" stroke-width="3.4" stroke-linecap="round"/>
+  <circle cx="27" cy="67" r="4" fill="#F28AA0"/><circle cx="73" cy="67" r="4" fill="#F28AA0"/>
+</g>
+<text x="34" y="19" font-size="10" font-weight="800">Hôm nay ăn gì?</text>
+<text x="34" y="26" font-size="3.6" fill="#56655B">Máy tư vấn dinh dưỡng học đường · Đèn dừng ở số nào, món số đó hiện trên màn hình và webapp.</text>
+<g transform="translate(105 124) scale(0.97) translate(-105 -126)">
+<circle cx="105.0" cy="126.0" r="92.0" fill="#2B59A6"/>
+<path d="M105.00 126.00 L82.48 41.96 A87.00 87.00 0 0 1 127.52 41.96 Z" fill="#FFFFFF"/>
+<path d="M105.00 126.00 L127.52 41.96 A87.00 87.00 0 0 1 166.52 64.48 Z" fill="#E6EDF8"/>
+<path d="M105.00 126.00 L166.52 64.48 A87.00 87.00 0 0 1 189.04 103.48 Z" fill="#FFFFFF"/>
+<path d="M105.00 126.00 L189.04 103.48 A87.00 87.00 0 0 1 189.04 148.52 Z" fill="#E6EDF8"/>
+<path d="M105.00 126.00 L189.04 148.52 A87.00 87.00 0 0 1 166.52 187.52 Z" fill="#FFFFFF"/>
+<path d="M105.00 126.00 L166.52 187.52 A87.00 87.00 0 0 1 127.52 210.04 Z" fill="#E6EDF8"/>
+<path d="M105.00 126.00 L127.52 210.04 A87.00 87.00 0 0 1 82.48 210.04 Z" fill="#FFFFFF"/>
+<path d="M105.00 126.00 L82.48 210.04 A87.00 87.00 0 0 1 43.48 187.52 Z" fill="#E6EDF8"/>
+<path d="M105.00 126.00 L43.48 187.52 A87.00 87.00 0 0 1 20.96 148.52 Z" fill="#FFFFFF"/>
+<path d="M105.00 126.00 L20.96 148.52 A87.00 87.00 0 0 1 20.96 103.48 Z" fill="#E6EDF8"/>
+<path d="M105.00 126.00 L20.96 103.48 A87.00 87.00 0 0 1 43.48 64.48 Z" fill="#FFFFFF"/>
+<path d="M105.00 126.00 L43.48 64.48 A87.00 87.00 0 0 1 82.48 41.96 Z" fill="#E6EDF8"/>
+<line x1="113.54" y1="94.12" x2="127.52" y2="41.96" stroke="#2B59A6" stroke-width="0.6"/>
+<line x1="128.33" y1="102.67" x2="166.52" y2="64.48" stroke="#2B59A6" stroke-width="0.6"/>
+<line x1="136.88" y1="117.46" x2="189.04" y2="103.48" stroke="#2B59A6" stroke-width="0.6"/>
+<line x1="136.88" y1="134.54" x2="189.04" y2="148.52" stroke="#2B59A6" stroke-width="0.6"/>
+<line x1="128.33" y1="149.33" x2="166.52" y2="187.52" stroke="#2B59A6" stroke-width="0.6"/>
+<line x1="113.54" y1="157.88" x2="127.52" y2="210.04" stroke="#2B59A6" stroke-width="0.6"/>
+<line x1="96.46" y1="157.88" x2="82.48" y2="210.04" stroke="#2B59A6" stroke-width="0.6"/>
+<line x1="81.67" y1="149.33" x2="43.48" y2="187.52" stroke="#2B59A6" stroke-width="0.6"/>
+<line x1="73.12" y1="134.54" x2="20.96" y2="148.52" stroke="#2B59A6" stroke-width="0.6"/>
+<line x1="73.12" y1="117.46" x2="20.96" y2="103.48" stroke="#2B59A6" stroke-width="0.6"/>
+<line x1="81.67" y1="102.67" x2="43.48" y2="64.48" stroke="#2B59A6" stroke-width="0.6"/>
+<line x1="96.46" y1="94.12" x2="82.48" y2="41.96" stroke="#2B59A6" stroke-width="0.6"/>
+<circle cx="112.80" cy="36.84" r="0.9" fill="#fff"/>
+<circle cx="128.16" cy="39.55" r="0.9" fill="#fff"/>
+<circle cx="142.82" cy="44.89" r="0.9" fill="#fff"/>
+<circle cx="156.34" cy="52.69" r="0.9" fill="#fff"/>
+<circle cx="168.29" cy="62.71" r="0.9" fill="#fff"/>
+<circle cx="178.31" cy="74.66" r="0.9" fill="#fff"/>
+<circle cx="186.11" cy="88.18" r="0.9" fill="#fff"/>
+<circle cx="191.45" cy="102.84" r="0.9" fill="#fff"/>
+<circle cx="194.16" cy="118.20" r="0.9" fill="#fff"/>
+<circle cx="194.16" cy="133.80" r="0.9" fill="#fff"/>
+<circle cx="191.45" cy="149.16" r="0.9" fill="#fff"/>
+<circle cx="186.11" cy="163.82" r="0.9" fill="#fff"/>
+<circle cx="178.31" cy="177.34" r="0.9" fill="#fff"/>
+<circle cx="168.29" cy="189.29" r="0.9" fill="#fff"/>
+<circle cx="156.34" cy="199.31" r="0.9" fill="#fff"/>
+<circle cx="142.82" cy="207.11" r="0.9" fill="#fff"/>
+<circle cx="128.16" cy="212.45" r="0.9" fill="#fff"/>
+<circle cx="112.80" cy="215.16" r="0.9" fill="#fff"/>
+<circle cx="97.20" cy="215.16" r="0.9" fill="#fff"/>
+<circle cx="81.84" cy="212.45" r="0.9" fill="#fff"/>
+<circle cx="67.18" cy="207.11" r="0.9" fill="#fff"/>
+<circle cx="53.66" cy="199.31" r="0.9" fill="#fff"/>
+<circle cx="41.71" cy="189.29" r="0.9" fill="#fff"/>
+<circle cx="31.69" cy="177.34" r="0.9" fill="#fff"/>
+<circle cx="23.89" cy="163.82" r="0.9" fill="#fff"/>
+<circle cx="18.55" cy="149.16" r="0.9" fill="#fff"/>
+<circle cx="15.84" cy="133.80" r="0.9" fill="#fff"/>
+<circle cx="15.84" cy="118.20" r="0.9" fill="#fff"/>
+<circle cx="18.55" cy="102.84" r="0.9" fill="#fff"/>
+<circle cx="23.89" cy="88.18" r="0.9" fill="#fff"/>
+<circle cx="31.69" cy="74.66" r="0.9" fill="#fff"/>
+<circle cx="41.71" cy="62.71" r="0.9" fill="#fff"/>
+<circle cx="53.66" cy="52.69" r="0.9" fill="#fff"/>
+<circle cx="67.18" cy="44.89" r="0.9" fill="#fff"/>
+<circle cx="81.84" cy="39.55" r="0.9" fill="#fff"/>
+<circle cx="97.20" cy="36.84" r="0.9" fill="#fff"/>
+<circle cx="105.00" cy="60.00" r="11.5" fill="#FFFFFF" stroke="#18251D" stroke-width="1"/>
+<text x="105.00" y="60.40" font-size="14.5" font-weight="800" text-anchor="middle" dominant-baseline="central" fill="#18251D">1</text>
+<line x1="105.00" y1="89.00" x2="105.00" y2="74.00" stroke="#9FB2D6" stroke-width="0.8" stroke-dasharray="1.2 1.4"/>
+<circle cx="138.00" cy="68.84" r="11.5" fill="#FFFFFF" stroke="#18251D" stroke-width="1"/>
+<text x="138.00" y="69.24" font-size="14.5" font-weight="800" text-anchor="middle" dominant-baseline="central" fill="#18251D">2</text>
+<line x1="123.50" y1="93.96" x2="131.00" y2="80.97" stroke="#9FB2D6" stroke-width="0.8" stroke-dasharray="1.2 1.4"/>
+<circle cx="162.16" cy="93.00" r="11.5" fill="#FFFFFF" stroke="#18251D" stroke-width="1"/>
+<text x="162.16" y="93.40" font-size="14.5" font-weight="800" text-anchor="middle" dominant-baseline="central" fill="#18251D">3</text>
+<line x1="137.04" y1="107.50" x2="150.03" y2="100.00" stroke="#9FB2D6" stroke-width="0.8" stroke-dasharray="1.2 1.4"/>
+<circle cx="171.00" cy="126.00" r="11.5" fill="#FFFFFF" stroke="#18251D" stroke-width="1"/>
+<text x="171.00" y="126.40" font-size="14.5" font-weight="800" text-anchor="middle" dominant-baseline="central" fill="#18251D">4</text>
+<line x1="142.00" y1="126.00" x2="157.00" y2="126.00" stroke="#9FB2D6" stroke-width="0.8" stroke-dasharray="1.2 1.4"/>
+<circle cx="162.16" cy="159.00" r="11.5" fill="#FFFFFF" stroke="#18251D" stroke-width="1"/>
+<text x="162.16" y="159.40" font-size="14.5" font-weight="800" text-anchor="middle" dominant-baseline="central" fill="#18251D">5</text>
+<line x1="137.04" y1="144.50" x2="150.03" y2="152.00" stroke="#9FB2D6" stroke-width="0.8" stroke-dasharray="1.2 1.4"/>
+<circle cx="138.00" cy="183.16" r="11.5" fill="#FFFFFF" stroke="#18251D" stroke-width="1"/>
+<text x="138.00" y="183.56" font-size="14.5" font-weight="800" text-anchor="middle" dominant-baseline="central" fill="#18251D">6</text>
+<line x1="123.50" y1="158.04" x2="131.00" y2="171.03" stroke="#9FB2D6" stroke-width="0.8" stroke-dasharray="1.2 1.4"/>
+<circle cx="105.00" cy="192.00" r="11.5" fill="#FFFFFF" stroke="#18251D" stroke-width="1"/>
+<text x="105.00" y="192.40" font-size="14.5" font-weight="800" text-anchor="middle" dominant-baseline="central" fill="#18251D">7</text>
+<line x1="105.00" y1="163.00" x2="105.00" y2="178.00" stroke="#9FB2D6" stroke-width="0.8" stroke-dasharray="1.2 1.4"/>
+<circle cx="72.00" cy="183.16" r="11.5" fill="#FFFFFF" stroke="#18251D" stroke-width="1"/>
+<text x="72.00" y="183.56" font-size="14.5" font-weight="800" text-anchor="middle" dominant-baseline="central" fill="#18251D">8</text>
+<line x1="86.50" y1="158.04" x2="79.00" y2="171.03" stroke="#9FB2D6" stroke-width="0.8" stroke-dasharray="1.2 1.4"/>
+<circle cx="47.84" cy="159.00" r="11.5" fill="#FFFFFF" stroke="#18251D" stroke-width="1"/>
+<text x="47.84" y="159.40" font-size="14.5" font-weight="800" text-anchor="middle" dominant-baseline="central" fill="#18251D">9</text>
+<line x1="72.96" y1="144.50" x2="59.97" y2="152.00" stroke="#9FB2D6" stroke-width="0.8" stroke-dasharray="1.2 1.4"/>
+<circle cx="39.00" cy="126.00" r="11.5" fill="#FFFFFF" stroke="#18251D" stroke-width="1"/>
+<text x="39.00" y="126.40" font-size="14.5" font-weight="800" text-anchor="middle" dominant-baseline="central" fill="#18251D">10</text>
+<line x1="68.00" y1="126.00" x2="53.00" y2="126.00" stroke="#9FB2D6" stroke-width="0.8" stroke-dasharray="1.2 1.4"/>
+<circle cx="47.84" cy="93.00" r="11.5" fill="#FFFFFF" stroke="#18251D" stroke-width="1"/>
+<text x="47.84" y="93.40" font-size="14.5" font-weight="800" text-anchor="middle" dominant-baseline="central" fill="#18251D">11</text>
+<line x1="72.96" y1="107.50" x2="59.97" y2="100.00" stroke="#9FB2D6" stroke-width="0.8" stroke-dasharray="1.2 1.4"/>
+<circle cx="72.00" cy="68.84" r="11.5" fill="#FFFFFF" stroke="#18251D" stroke-width="1"/>
+<text x="72.00" y="69.24" font-size="14.5" font-weight="800" text-anchor="middle" dominant-baseline="central" fill="#18251D">12</text>
+<line x1="86.50" y1="93.96" x2="79.00" y2="80.97" stroke="#9FB2D6" stroke-width="0.8" stroke-dasharray="1.2 1.4"/>
+<circle cx="105.0" cy="126.0" r="33.0" fill="#FFFFFF" stroke="#2B59A6" stroke-width="0.8"/>
+<circle cx="105.0" cy="126.0" r="25.5" fill="none" stroke="#8A96A8" stroke-width="0.35" stroke-dasharray="1.5 1"/>
+<circle cx="105.0" cy="126.0" r="19" fill="none" stroke="#8A96A8" stroke-width="0.35" stroke-dasharray="1.5 1"/>
+<line x1="105.00" y1="99.50" x2="105.00" y2="95.00" stroke="#18251D" stroke-width="0.8"/>
+<line x1="118.25" y1="103.05" x2="120.50" y2="99.15" stroke="#18251D" stroke-width="0.8"/>
+<line x1="127.95" y1="112.75" x2="131.85" y2="110.50" stroke="#18251D" stroke-width="0.8"/>
+<line x1="131.50" y1="126.00" x2="136.00" y2="126.00" stroke="#18251D" stroke-width="0.8"/>
+<line x1="127.95" y1="139.25" x2="131.85" y2="141.50" stroke="#18251D" stroke-width="0.8"/>
+<line x1="118.25" y1="148.95" x2="120.50" y2="152.85" stroke="#18251D" stroke-width="0.8"/>
+<line x1="105.00" y1="152.50" x2="105.00" y2="157.00" stroke="#18251D" stroke-width="0.8"/>
+<line x1="91.75" y1="148.95" x2="89.50" y2="152.85" stroke="#18251D" stroke-width="0.8"/>
+<line x1="82.05" y1="139.25" x2="78.15" y2="141.50" stroke="#18251D" stroke-width="0.8"/>
+<line x1="78.50" y1="126.00" x2="74.00" y2="126.00" stroke="#18251D" stroke-width="0.8"/>
+<line x1="82.05" y1="112.75" x2="78.15" y2="110.50" stroke="#18251D" stroke-width="0.8"/>
+<line x1="91.75" y1="103.05" x2="89.50" y2="99.15" stroke="#18251D" stroke-width="0.8"/>
+<line x1="100.0" y1="126.0" x2="110.0" y2="126.0" stroke="#8A96A8" stroke-width="0.3"/>
+<line x1="105.0" y1="121.0" x2="105.0" y2="131.0" stroke="#8A96A8" stroke-width="0.3"/>
+<text x="105.0" y="136.0" font-size="2.6" text-anchor="middle" fill="#56655B">vòng LED đặt dưới vùng này</text>
+<text x="105.0" y="139.5" font-size="2.3" text-anchor="middle" fill="#8A96A8">cắt theo vạch Ø38 hoặc Ø51 mm</text>
+<text x="105.0" y="142.5" font-size="2.3" text-anchor="middle" fill="#8A96A8">nếu muốn khoét lỗ</text>
+<text x="105.0" y="118.0" font-size="2.6" font-weight="700" text-anchor="middle" fill="#C8322B">▲ đèn số 1 (đỏ khi Thử LED)</text>
+<circle cx="105.0" cy="126.0" r="95.0" fill="none" stroke="#B0B8B2" stroke-width="0.3" stroke-dasharray="2 1.5"/>
+</g>
+<rect x="12" y="220" width="186" height="18" rx="3" fill="#F4F7F2"/>
+<text x="16" y="226" font-size="3.7" font-weight="800">Màu đèn cho biết nguồn chất đạm của món:</text>
+<circle cx="16.6" cy="233.3" r="2.6" fill="#4FA3D6"/><text x="20.6" y="234.4" font-size="3.6" font-weight="600">Cá</text>
+<circle cx="32.1" cy="233.3" r="2.6" fill="#E86E8C"/><text x="36.1" y="234.4" font-size="3.6" font-weight="600">Tôm, mực, cua</text>
+<circle cx="69.0" cy="233.3" r="2.6" fill="#E27864"/><text x="73.0" y="234.4" font-size="3.6" font-weight="600">Thịt heo</text>
+<circle cx="96.2" cy="233.3" r="2.6" fill="#F0A83C"/><text x="100.2" y="234.4" font-size="3.6" font-weight="600">Thịt gà</text>
+<circle cx="121.5" cy="233.3" r="2.6" fill="#AA6E50"/><text x="125.5" y="234.4" font-size="3.6" font-weight="600">Thịt bò</text>
+<circle cx="146.7" cy="233.3" r="2.6" fill="#EEC83C"/><text x="150.7" y="234.4" font-size="3.6" font-weight="600">Trứng</text>
+<circle cx="168.1" cy="233.3" r="2.6" fill="#6EB45A"/><text x="172.1" y="234.4" font-size="3.6" font-weight="600">Đậu, đậu hũ</text>
+<rect x="12" y="241" width="186" height="26" rx="3" fill="#F4F7F2"/>
+<text x="16" y="247" font-size="3.7" font-weight="800">Đèn nói gì?</text>
+<text x="16" y="253" font-size="3.4">Đèn chạy vòng rồi chậm dần: đang quay · Một đèn nháy rồi sáng rõ: món được chọn</text>
+<text x="16" y="258.5" font-size="3.4">Chỉ còn một đèn sáng: đã chốt món hôm nay</text>
+<text x="16" y="264.6" font-size="3.4" font-weight="600">Nút:</text>
+<circle cx="28" cy="263.4" r="2.3" fill="#F2B705"/><text x="32" y="264.6" font-size="3.4">Quay</text>
+<circle cx="49" cy="263.4" r="2.3" fill="#2EA05A"/><text x="53" y="264.6" font-size="3.4">Chốt</text>
+<circle cx="69" cy="263.4" r="2.3" fill="#2F7FD8"/><text x="73" y="264.6" font-size="3.4">Đổi canh</text>
+<circle cx="97" cy="263.4" r="2.3" fill="#D9485F"/><text x="101" y="264.6" font-size="3.4">Đổi tráng miệng</text>
+<!-- ô thông tin: điền sẵn từ webapp (Cài đặt, Thông tin sản phẩm) hoặc để dòng kẻ viết tay -->
+<rect x="12" y="270" width="186" height="20" rx="3" fill="#fff" stroke="#9AA9C4" stroke-width="0.4"/>
+<text id="tt-don-vi-nhan" x="16" y="277.4" font-size="3.6" font-weight="800">Đơn vị:</text>
+<line id="tt-don-vi-ke" x1="31" y1="278.2" x2="118" y2="278.2" stroke="#9AA9C4" stroke-width="0.35" stroke-dasharray="0.8 0.8"/>
+<text id="tt-don-vi" x="31.5" y="277.4" font-size="3.6" font-weight="600"></text>
+<text id="tt-gvhd-nhan" x="122" y="277.4" font-size="3.6" font-weight="800">GV hướng dẫn:</text>
+<line id="tt-gvhd-ke" x1="151" y1="278.2" x2="194" y2="278.2" stroke="#9AA9C4" stroke-width="0.35" stroke-dasharray="0.8 0.8"/>
+<text id="tt-gvhd" x="151.5" y="277.4" font-size="3.6" font-weight="600"></text>
+<text id="tt-nguoi-nhan" x="16" y="285.6" font-size="3.6" font-weight="800">Người thực hiện:</text>
+<line id="tt-nguoi-ke" x1="48" y1="286.4" x2="194" y2="286.4" stroke="#9AA9C4" stroke-width="0.35" stroke-dasharray="0.8 0.8"/>
+<text id="tt-nguoi" x="48.5" y="285.6" font-size="3.6" font-weight="600"></text>
+</svg>
+<script>
+/* Điền tên đơn vị, người thực hiện, giáo viên hướng dẫn gửi từ webapp qua địa chỉ trang (?don_vi=...&nguoi=...&gvhd=...).
+   Không có thì giữ dòng kẻ để viết tay. Tên quá dài được nén cho vừa ô. */
+(function () {
+  var q = new URLSearchParams(location.search);
+  function dien(id, gt) {
+    var t = document.getElementById(id), ke = document.getElementById(id + "-ke"), nhan = document.getElementById(id + "-nhan");
+    if (!t || !ke) return;
+    try {                                   /* chữ / dòng kẻ bắt đầu ngay sau nhãn, theo bề rộng thật của phông */
+      var b = nhan.getBBox(), x = b.x + b.width + 1.6;
+      ke.setAttribute("x1", x.toFixed(2)); t.setAttribute("x", (x + 0.4).toFixed(2));
+    } catch (e) { /* giữ vị trí mặc định */ }
+    if (!gt) return;
+    t.textContent = gt;
+    ke.style.display = "none";
+    var rong = parseFloat(ke.getAttribute("x2")) - parseFloat(t.getAttribute("x"));
+    try {
+      if (t.getComputedTextLength() > rong) { t.setAttribute("textLength", rong.toFixed(2)); t.setAttribute("lengthAdjust", "spacingAndGlyphs"); }
+    } catch (e) { /* bỏ qua */ }
+  }
+  function lam() { dien("tt-don-vi", q.get("don_vi")); dien("tt-gvhd", q.get("gvhd")); dien("tt-nguoi", q.get("nguoi")); }
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(lam); else lam();
+})();
+</script>
+</body></html>

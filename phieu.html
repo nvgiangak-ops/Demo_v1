@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Phiếu thực đơn và kê chợ</title>
+<style>
+@font-face{font-family:BV;font-weight:400;src:url(phong_chu/BeVietnamPro-Regular.ttf)}
+@font-face{font-family:BV;font-weight:600;src:url(phong_chu/BeVietnamPro-SemiBold.ttf)}
+@font-face{font-family:BV;font-weight:700;src:url(phong_chu/BeVietnamPro-Bold.ttf)}
+@font-face{font-family:BV;font-weight:800;src:url(phong_chu/BeVietnamPro-ExtraBold.ttf)}
+:root{--muc:#18251D;--muc-2:#56655B;--la:#1E5B3A;--la-nhat:#E8F1E6;--vien:#C9D3C6;--vien-nhat:#E3E9E1;--nghe:#F2B705;--do:#C8322B;--cam:#B7791F;--xanh:#2E7D4F}
+*{box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+html{background:#DDE3DA}
+body{margin:0;font-family:BV,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--muc);font-size:10pt;line-height:1.45}
+@page{size:A4;margin:11mm 11mm 13mm}
+
+/* thanh công cụ (chỉ trên màn hình) */
+.cong-cu{position:sticky;top:0;z-index:5;background:#fff;border-bottom:1px solid var(--vien);padding:10px 16px;display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;font-size:14px}
+.cong-cu b{font-size:15px;margin-right:auto}
+.cong-cu label{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.cong-cu input[type=number]{width:84px;font:inherit;padding:6px 8px;border:1px solid var(--vien);border-radius:8px}
+.cong-cu button{font:inherit;font-weight:700;border:1px solid var(--la);background:#fff;color:var(--la);border-radius:999px;padding:7px 16px;cursor:pointer}
+.cong-cu button.chinh{background:var(--la);color:#fff}
+.cong-cu button:focus-visible,.cong-cu input:focus-visible{outline:3px solid var(--nghe);outline-offset:2px}
+.trang{background:#fff;width:210mm;max-width:calc(100% - 24px);margin:16px auto 40px;padding:12mm 12mm 14mm;box-shadow:0 2px 14px rgba(0,0,0,.12)}
+.thong-bao{max-width:560px;margin:60px auto;background:#fff;border-radius:12px;padding:24px;font-size:15px;line-height:1.6}
+@media print{html{background:#fff}.cong-cu{display:none}.trang{width:auto;max-width:none;margin:0;padding:0;box-shadow:none}}
+@media screen and (max-width:760px){.trang{padding:16px}}
+
+/* phiếu */
+.dau{display:flex;justify-content:space-between;gap:10mm;font-size:9.5pt;line-height:1.5;border-bottom:.35mm solid var(--muc);padding-bottom:2.5mm}
+.dau .trai b{display:block;font-size:10.5pt;text-transform:uppercase;letter-spacing:.01em}
+.dau .phai{text-align:right;white-space:nowrap}
+h1{font-size:15.5pt;font-weight:800;text-align:center;margin:5mm 0 1mm;letter-spacing:.01em}
+.phu{text-align:center;color:var(--muc-2);margin:0 0 4mm;font-size:10pt}
+.nhap{display:inline-block;margin-left:2mm;padding:.4mm 2.5mm;border:.35mm solid var(--do);color:var(--do);border-radius:1.5mm;font-weight:700;font-size:8.5pt;vertical-align:1px}
+.tom-tat{display:grid;grid-template-columns:repeat(4,1fr);gap:2.5mm;margin-bottom:4mm}
+.tom-tat div{border:.3mm solid var(--vien);border-radius:2mm;padding:2mm 3mm;line-height:1.3}
+.tom-tat span{display:block;font-size:8.5pt;color:var(--muc-2)}
+.tom-tat b{display:block;font-size:13pt;font-weight:800;margin:.6mm 0 .2mm}
+.tom-tat small{display:block;font-size:8.5pt;color:var(--muc-2)}
+.dat{color:var(--xanh)!important}.gan{color:var(--cam)!important}.chua{color:var(--do)!important}
+h2{font-size:11pt;font-weight:800;color:var(--la);margin:5mm 0 2mm;padding-bottom:1mm;border-bottom:.3mm solid var(--vien-nhat);break-after:avoid}
+table{width:100%;border-collapse:collapse;font-size:9.3pt;line-height:1.35}
+th,td{border:.25mm solid var(--vien);padding:1.3mm 1.8mm;vertical-align:top;text-align:left}
+th{background:var(--la-nhat);font-weight:700;font-size:8.8pt;vertical-align:middle}
+tr{break-inside:avoid}
+thead{display:table-header-group}
+td.so,th.so{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+td.giua,th.giua{text-align:center}
+.nho{display:block;font-size:8.2pt;color:var(--muc-2);margin-top:.3mm}
+tr.nhom td{background:#F4F7F2;font-weight:700;font-size:8.8pt;color:var(--la)}
+tr.cong td{font-weight:700;background:#FAFBF8}
+td.trong{background:#fff}
+.hai-cot{display:grid;grid-template-columns:1fr 52mm;gap:4mm;align-items:start}
+.diem{border:.3mm solid var(--vien);border-radius:2mm;padding:3mm;text-align:center}
+.diem svg{width:26mm;height:26mm}
+.diem p{margin:1mm 0 0;font-size:9pt}
+.ty-le{margin-top:2.5mm;text-align:left;font-size:8.5pt}
+.ty-le div{display:flex;align-items:center;gap:1.5mm;margin-top:1.2mm}
+.ty-le span:first-child{width:14mm}
+.ray{flex:1;height:2.4mm;background:#EEF1EC;border-radius:2mm;position:relative;overflow:hidden}
+.ray i{position:absolute;top:0;bottom:0;background:rgba(46,125,79,.18);border-left:.25mm solid var(--xanh);border-right:.25mm solid var(--xanh)}
+.ray b{position:absolute;left:0;top:.6mm;height:1.2mm;border-radius:1mm}
+ul.goi-y{margin:2mm 0 0;padding-left:5mm;font-size:9pt}
+ul.goi-y li{margin:.6mm 0}
+.tong-tien{display:grid;grid-template-columns:1fr 1fr;gap:2mm 6mm;margin-top:2.5mm;font-size:9.5pt}
+.tong-tien table td{border:0;border-bottom:.25mm dotted var(--vien);padding:1mm 0}
+.tong-tien table tr:last-child td{border-bottom:0}
+.tong-tien .lon td{font-weight:800;font-size:10.5pt}
+.ghi-chu{font-size:8.5pt;color:var(--muc-2);margin:2mm 0 0}
+.canh-bao{font-size:8.8pt;color:var(--do);margin:2mm 0 0}
+.pa{margin:1mm 0 0}.pa li{margin:.6mm 0}
+.trang-moi{break-before:page}
+.khoi{break-inside:avoid}
+.cach ol{margin:1mm 0 2mm;padding-left:5mm}
+.cach h3{font-size:9.8pt;margin:2.5mm 0 .5mm}
+.cach .luoi{columns:2;column-gap:7mm}
+.cach .mon{break-inside:avoid}
+.o-vuong{display:inline-block;width:3.2mm;height:3.2mm;border:.3mm solid var(--muc);border-radius:.5mm;vertical-align:-.5mm;margin-right:1.5mm}
+.ke{display:inline-block;min-width:24mm;border-bottom:.25mm dotted var(--muc-2)}
+.ky{display:grid;grid-template-columns:repeat(4,1fr);gap:3mm;text-align:center;margin-top:3mm;break-inside:avoid;font-size:9.3pt}
+.ky b{display:block}
+.ky small{display:block;color:var(--muc-2);font-size:8pt;margin-bottom:14mm}
+.noi-ngay{text-align:right;font-style:italic;margin-top:3mm;font-size:9.3pt}
+.chan{margin-top:3mm;padding-top:1.5mm;border-top:.25mm solid var(--vien-nhat);font-size:7.8pt;color:var(--muc-2);line-height:1.45}
+</style>
+</head>
+<body>
+<div class="cong-cu" id="cong-cu" hidden>
+  <b>Phiếu thực đơn và kê chợ</b>
+  <label>Số suất <input type="number" id="so-suat" min="1" max="5000" step="1"></label>
+  <label><input type="checkbox" id="co-cach" checked> Cách chế biến</label>
+  <label><input type="checkbox" id="co-kiem" checked> Kiểm thực, lưu mẫu</label>
+  <button type="button" id="lam-moi" title="Lấy lại mâm cơm, giá mới nhất từ webapp">Cập nhật</button>
+  <button type="button" id="tai-excel">Tải Excel</button>
+  <button type="button" class="chinh" id="in">In phiếu</button>
+</div>
+<div id="noi-dung"></div>
+<script src="xlsx_nho.js"></script>
+<script>
+"use strict";
+/* Phiếu A4 dành cho người quản lý bếp ăn: thực đơn, định lượng, giá trị dinh dưỡng, bảng kê đi chợ theo số suất,
+   chi phí so với định mức, phương án tiết kiệm, kiểm thực ba bước và lưu mẫu, chữ ký.
+   Dữ liệu do webapp (index.html) chuẩn bị: lấy từ cửa sổ mở trang này, dự phòng trong bộ nhớ trình duyệt. */
+const KHOA = "hom-nay-an-gi:phieu";
+const $ = s => document.querySelector(s);
+const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"}[c]));
+const so = (x, d) => Number(x || 0).toLocaleString("vi-VN", {maximumFractionDigits: d == null ? 0 : d});
+const tien = x => so(Math.round(x)) + " đ";
+const NHOM_MUA = [
+  {ten: "Thịt, cá, trứng, đậu phụ", nhom: ["dam_dv", "dam_tv"]},
+  {ten: "Rau, củ, quả", nhom: ["rau", "trai_cay"]},
+  {ten: "Gạo, bún, bánh phở", nhom: ["bot"]},
+  {ten: "Sữa và chế phẩm từ sữa", nhom: ["sua"]},
+  {ten: "Gia vị, dầu ăn và khác", nhom: ["gia_vi", "beo", ""]}
+];
+const TEN_PHAN = {mon: "Món chính", com: "Cơm", canh: "Canh, rau", trang_mieng: "Tráng miệng"};
+let D = null, soSuat = 1;
+
+/* ---------- lấy dữ liệu ---------- */
+function tuOpener() {
+  try { return window.opener && !window.opener.closed && window.opener.PHIEU_DU_LIEU ? window.opener.PHIEU_DU_LIEU : null; }
+  catch (e) { return null; }
+}
+function tuBoNho() {
+  try { const s = localStorage.getItem(KHOA); return s ? JSON.parse(s) : null; } catch (e) { return null; }
+}
+function batDau(lan) {
+  const d = tuOpener() || (lan >= 25 ? tuBoNho() : null);
+  if (d) { nhan(d); return; }
+  if (lan < 25) { setTimeout(() => batDau(lan + 1), 120); return; }
+  $("#noi-dung").innerHTML = '<div class="thong-bao"><b>Chưa có dữ liệu phiếu.</b><br>Mở trang này bằng nút <b>In phiếu thực đơn, đi chợ</b> ' +
+    'ở phần mâm cơm của webapp (sau khi đã quay chọn món).</div>';
+}
+function nhan(d) {
+  D = d;
+  soSuat = Math.max(1, Math.min(5000, parseInt(d.so_suat, 10) || 1));
+  $("#so-suat").value = soSuat;
+  $("#cong-cu").hidden = false;
+  ve();
+}
+
+/* ---------- tính toán ---------- */
+const gamMua = (x, g) => g / Math.max(0.05, 1 - Number(x.thai_bo || 0) / 100);
+function giaMoiGam(x) { const gia = Number(x.gia || 0), gDv = Number(x.g_dv || 1000); return gia > 0 && gDv > 0 ? gia / gDv : 0; }
+function nguyenLieu(id, duPhong) { return (D.nl || []).find(x => x.id === id) || duPhong || {id: id, ten: id, thai_bo: 0, nhom: ""}; }
+/* lượng cần mua làm tròn lên theo đơn vị mua: kg (dưới 1 kg làm tròn 50 g), lít (dưới 1 lít làm tròn 50 ml), đơn vị đếm làm tròn lên số nguyên */
+function luongMua(x, gamTong) {
+  const dv = x.dv || "kg", gDv = Number(x.g_dv || 1000) || 1000;
+  if (dv === "kg" || dv === "lít") {
+    const soDv = gamTong / gDv;
+    if (soDv < 1) {
+      const nho = Math.max(50, Math.ceil(soDv * 1000 / 50 - 1e-9) * 50);
+      return {sl: nho / 1000, dv: dv, hien: so(nho) + (dv === "kg" ? " g" : " ml")};
+    }
+    const sl = Math.ceil(soDv * 10 - 1e-9) / 10;
+    return {sl: sl, dv: dv, hien: so(sl, 1) + " " + dv};
+  }
+  const sl = Math.max(1, Math.ceil(gamTong / gDv - 1e-9));
+  return {sl: sl, dv: dv, hien: so(sl) + " " + dv};
+}
+function tinh() {
+  const m = D.mam, N = soSuat;
+  /* bảng kê: gộp theo nguyên liệu (đã có trong mâm), giá lấy theo bảng giá hiện tại */
+  const dong = (m.nguyen_lieu || []).map(r => {
+    const x = nguyenLieu(r.id, r), gamT = gamMua(x, r.g) * N, lm = luongMua(x, gamT), gia = Number(x.gia || 0);
+    return {id: r.id, ten: x.ten || r.ten, nhom: x.nhom || r.nhom || "", g: r.g, thai_bo: Number(x.thai_bo || 0), gam_tong: gamT,
+            luong: lm, gia: gia, thanh_tien: gia > 0 ? Math.round(lm.sl * gia) : 0, gia_ngay: x.gia_ngay || "", co_gia: gia > 0,
+            suat: gamMua(x, r.g) * giaMoiGam(x)};
+  });
+  const nhom = NHOM_MUA.map(n => ({ten: n.ten, dong: dong.filter(d => n.nhom.includes(d.nhom))})).filter(n => n.dong.length);
+  const khac = dong.filter(d => !NHOM_MUA.some(n => n.nhom.includes(d.nhom)));
+  if (khac.length) nhom.push({ten: "Khác", dong: khac});
+  /* tiền và định lượng từng phần của mâm cho một suất */
+  const phan = {};
+  (m.dinh_luong || []).forEach(d => {
+    const x = nguyenLieu(d.id);
+    const p = phan[d.nguon] || (phan[d.nguon] = {g: 0, tien: 0, ds: []});
+    p.g += d.g; p.tien += gamMua(x, d.g) * giaMoiGam(x); p.ds.push({ten: x.ten || d.id, g: d.g});
+  });
+  /* tiền một suất theo định lượng: dùng đúng số máy đã tính cho mâm (máy tính lại mỗi khi đổi giá) để phiếu khớp màn hình */
+  const cp = m.chi_phi || {};
+  if (cp.theo_mon) Object.keys(phan).forEach(k => { if (cp.theo_mon[k] != null) phan[k].tien = Number(cp.theo_mon[k]); });
+  const tienSuatTP = cp.thuc_pham != null ? Number(cp.thuc_pham) : dong.reduce((a, d) => a + d.suat, 0);
+  const tongCho = dong.reduce((a, d) => a + d.thanh_tien, 0);
+  const khacSuat = Number(D.chi_phi_khac || 0), dm = Number(D.dinh_muc || 0);
+  const tong = tongCho + khacSuat * N;
+  return {dong: dong, nhom: nhom, phan: phan, tienSuatTP: tienSuatTP, tongCho: tongCho, khacSuat: khacSuat, dm: dm, tong: tong,
+          bqSuat: tong / N, thieuGia: dong.filter(d => !d.co_gia), giaCu: dong.filter(d => d.co_gia && d.gia_ngay && tuoiNgay(d.gia_ngay) > 30)};
+}
+function tuoiNgay(iso) {
+  const a = Date.parse(iso + "T00:00:00"), b = Date.parse((D.ngay || new Date().toISOString().slice(0, 10)) + "T00:00:00");
+  return isNaN(a) || isNaN(b) ? 0 : Math.round((b - a) / 864e5);
+}
+const ngayVN = iso => { const p = String(iso || "").split("-"); return p.length === 3 ? p[2] + "/" + p[1] + "/" + p[0] : ""; };
+const gamHien = g => g >= 1000 ? so(g / 1000, 2) + " kg" : so(g < 20 ? Math.max(1, Math.round(g)) : Math.round(g / 5) * 5) + " g";
+
+/* ---------- vẽ phiếu ---------- */
+function ve() {
+  const m = D.mam, mt = D.muc_tieu || m.muc_tieu || {}, t = tinh(), N = soSuat;
+  const tt = D.thong_tin || {};
+  const soPhieu = "TĐ-" + String(D.ngay || "").replace(/-/g, "") + (D.ket_qua != null ? "-" + (D.ket_qua + 1) : "");
+  const trangThaiDM = t.dm > 0 ? (t.bqSuat <= t.dm ? ["dat", "Trong định mức " + tien(t.dm)] : ["chua", "Vượt định mức " + tien(t.bqSuat - t.dm)]) : ["", "Chưa đặt định mức"];
+  const xl = m.diem >= 75 ? "dat" : m.diem >= 60 ? "gan" : "chua";
+  document.title = "Phiếu thực đơn " + ngayVN(D.ngay) + " – " + m.mon.ten;
+  let h = '<div class="trang"><div class="dau"><div class="trai"><b>' + esc(tt.don_vi || "Đơn vị: ................................................") + '</b>Bếp ăn ' +
+    esc((mt.ten_bua || "").toLowerCase()) + ' · Học sinh ' + esc(mt.ten_ho_so || "") + '</div>' +
+    '<div class="phai">Số phiếu: <b>' + esc(soPhieu) + '</b><br>Lập lúc: ' + esc(D.tao_luc || "") + '</div></div>' +
+    '<h1>PHIẾU THỰC ĐƠN, ĐỊNH LƯỢNG VÀ KÊ CHỢ</h1>' +
+    '<p class="phu">' + esc(mt.ten_bua || "Bữa ăn") + ' ngày ' + esc(D.ngay_hien_thi || ngayVN(D.ngay)) +
+    (D.chot ? "" : '<span class="nhap">BẢN NHÁP: món chưa chốt</span>') + '</p>';
+  /* tóm tắt */
+  h += '<div class="tom-tat">' +
+    '<div><span>Số suất ăn</span><b>' + so(N) + '</b><small>' + esc(mt.ten_bua || "") + '</small></div>' +
+    '<div><span>Chi phí bình quân một suất</span><b class="' + trangThaiDM[0] + '">' + tien(t.bqSuat) + '</b><small class="' + trangThaiDM[0] + '">' + esc(trangThaiDM[1]) + '</small></div>' +
+    '<div><span>Tổng tiền đi chợ</span><b>' + tien(t.tong) + '</b><small>' + (t.khacSuat ? "gồm chi phí khác " + tien(t.khacSuat * N) : "tiền thực phẩm") + '</small></div>' +
+    '<div><span>Điểm cân đối dinh dưỡng</span><b class="' + xl + '">' + m.diem + '/100</b><small>' + esc(m.xep_loai) + ', ' + so(m.tong.kcal) + ' kcal</small></div></div>';
+
+  /* 1. thực đơn, định lượng */
+  const tb = m.tinh_bot || {};
+  const dongMon = (k, ten, the) => {
+    const p = t.phan[k]; if (!p && !the) return "";
+    const ds = p ? p.ds.map(x => esc(x.ten) + " " + gamHien(x.g)).join(" · ") : "";
+    return '<tr><td><b>' + esc(TEN_PHAN[k]) + '</b><span class="nho">' + esc(ten) + '</span></td><td>' + ds + '</td><td class="so">' +
+      (p ? gamHien(p.g) : "") + '</td><td class="so">' + (p ? tien(p.tien) : "") + '</td></tr>';
+  };
+  h += '<h2>1. Thực đơn và định lượng một suất</h2><table><thead><tr><th style="width:24%">Món ăn</th><th>Thành phần, định lượng (phần ăn được)</th>' +
+    '<th class="so" style="width:13%">Tổng một suất</th><th class="so" style="width:14%">Tiền một suất</th></tr></thead><tbody>' +
+    dongMon("mon", m.mon.ten + (m.mon.suat && Math.abs(m.mon.suat - 1) > 0.05 ? " (" + so(m.mon.suat, 2) + " suất chuẩn)" : ""), true) +
+    (tb.loai === "com" ? dongMon("com", "Cơm trắng: " + tb.gao_g + " g gạo, khoảng " + so(tb.chen, 1) + " chén", true) : "") +
+    (m.canh ? dongMon("canh", m.canh.ten, true) : "") +
+    (m.trang_mieng ? dongMon("trang_mieng", m.trang_mieng.ten, true) : "") +
+    '<tr class="cong"><td colspan="3">Cộng tiền thực phẩm một suất theo định lượng' + (t.khacSuat ? " (chưa tính chi phí khác " + tien(t.khacSuat) + ")" : "") + '</td><td class="so">' + tien(t.tienSuatTP) + '</td></tr>' +
+    '</tbody></table>' +
+    (tb.loai === "trong_mon" ? '<p class="ghi-chu">Tinh bột nằm trong món một tô: ' + esc(tb.ten) + " " + tb.g + ' g mỗi suất.</p>' : "") +
+    (t.bqSuat - t.khacSuat > t.tienSuatTP + 50 ? '<p class="ghi-chu">Chi phí bình quân một suất (' + tien(t.bqSuat) + ') tính theo bảng kê ở mục 3, cao hơn tiền theo định lượng một chút vì lượng mua được làm tròn lên cho dễ mua.</p>' : "");
+
+  /* 2. dinh dưỡng */
+  const dg = {}; (m.danh_gia || []).forEach(x => { dg[x.ten] = x.trang_thai; });
+  const TT = {dat: "Đạt", gan: "Gần đạt", chua: "Chưa đạt"};
+  const o = (k, v) => k ? '<td class="giua ' + k + '"><b>' + TT[k] + '</b></td>' : '<td class="giua">–</td>';
+  const tg = m.tong, tl = m.ty_le || {};
+  const duong = tg.duong <= (mt.duong_max || 0) ? "dat" : tg.duong <= (mt.duong_max || 0) * 1.5 ? "gan" : "chua";
+  const dongDD = (ten, gt, kn, k) => '<tr><td>' + ten + '</td><td class="so">' + gt + '</td><td class="so">' + kn + '</td>' + o(k) + '</tr>';
+  let bangDD = dongDD("Năng lượng", so(tg.kcal) + " kcal", so(mt.kcal_min) + "–" + so(mt.kcal_max) + " kcal", dg["Năng lượng"]) +
+    dongDD("Chất đạm", so(tg.dam, 1) + " g · " + so(tl.dam) + "%", "13–20% năng lượng", dg["Chất đạm"]) +
+    dongDD("Chất béo", so(tg.beo, 1) + " g · " + so(tl.beo) + "%", "20–30% năng lượng", dg["Chất béo"]) +
+    dongDD("Bột đường", so(tg.bot, 1) + " g · " + so(tl.bot) + "%", "55–65% năng lượng", dg["Bột đường"]) +
+    dongDD("Rau xanh", so(tg.rau_g) + " g", "≥ " + so(mt.rau_min) + " g", dg["Rau xanh"]) +
+    dongDD("Chất xơ", so(tg.xo, 1) + " g", "–", "") +
+    dongDD("Natri (muối)", so(tg.natri) + " mg · ≈ " + so(tg.natri / 393, 1) + " g muối", "≤ " + so(mt.natri_max) + " mg", dg["Muối (natri)"]) +
+    dongDD("Đường thêm vào", so(tg.duong, 1) + " g", "≤ " + so(mt.duong_max, 1) + " g", duong);
+  (m.vi_chat || []).forEach(v => {
+    bangDD += dongDD(esc(v.ten), so(v.gia_tri, 1) + " " + v.don_vi + " · " + v.phan_tram + "%", so(v.muc_tieu, 1) + " " + v.don_vi, v.phan_tram >= 100 ? "dat" : v.phan_tram >= 60 ? "gan" : "chua");
+  });
+  const chuVi = 2 * Math.PI * 40, mau = m.diem >= 90 ? "#2E7D4F" : m.diem >= 75 ? "#4E9A45" : m.diem >= 60 ? "#C99500" : "#C8322B";
+  const ray = (ten, k, vung, mauR) => '<div><span>' + ten + '</span><span class="ray"><i style="left:' + vung[0] / 80 * 100 + '%;width:' + (vung[1] - vung[0]) / 80 * 100 + '%"></i><b style="width:' +
+    Math.min(100, (tl[k] || 0) / 80 * 100) + '%;background:' + mauR + '"></b></span><span>' + so(tl[k]) + '%</span></div>';
+  h += '<h2>2. Giá trị dinh dưỡng một suất</h2><div class="hai-cot"><table><thead><tr><th>Chỉ tiêu</th><th class="so">Một suất</th><th class="so">Khuyến nghị bữa</th><th class="giua">Đánh giá</th></tr></thead><tbody>' +
+    bangDD + '</tbody></table><div><div class="diem"><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="40" fill="none" stroke="#EEF1EC" stroke-width="9"/>' +
+    '<circle cx="50" cy="50" r="40" fill="none" stroke="' + mau + '" stroke-width="9" stroke-linecap="round" stroke-dasharray="' + (chuVi * m.diem / 100) + ' ' + chuVi + '" transform="rotate(-90 50 50)"/>' +
+    '<text x="50" y="52" text-anchor="middle" font-size="24" font-weight="800" fill="#18251D" font-family="BV">' + m.diem + '</text><text x="50" y="67" text-anchor="middle" font-size="9" fill="#56655B" font-family="BV">điểm</text></svg>' +
+    '<p><b>' + esc(m.xep_loai) + '</b><br>' + so(mt.kcal ? tg.kcal / (mt.kcal_ngay || mt.kcal) * 100 : 0) + '% năng lượng cả ngày</p>' +
+    '<div class="ty-le">' + ray("Đạm", "dam", [13, 20], "#E57860") + ray("Béo", "beo", [20, 30], "#F2B705") + ray("Bột", "bot", [55, 65], "#8CB0E6") + '</div></div>' +
+    (m.goi_y && m.goi_y.length ? '<ul class="goi-y">' + m.goi_y.slice(0, 3).map(g => '<li>' + esc(g) + '</li>').join("") + '</ul>' : "") + '</div></div>';
+
+  /* 3. bảng kê chợ */
+  let stt = 0;
+  const hangNL = d => {
+    stt += 1;
+    const cu = d.co_gia && d.gia_ngay && tuoiNgay(d.gia_ngay) > 30;
+    return '<tr><td class="giua">' + stt + '</td><td><b>' + esc(d.ten) + '</b><span class="nho">' + gamHien(d.g) + '/suất' + (d.thai_bo ? ", bỏ " + so(d.thai_bo) + "% khi sơ chế" : "") +
+      (cu ? ' · <span class="chua">giá ngày ' + esc(ngayVN(d.gia_ngay)) + '</span>' : "") + '</span></td>' +
+      '<td class="so"><b>' + esc(d.luong.hien) + '</b></td><td class="so">' + (d.co_gia ? so(d.gia) + " đ/" + esc(d.luong.dv) : '<span class="chua">chưa có giá</span>') + '</td>' +
+      '<td class="so">' + (d.co_gia ? so(d.thanh_tien) : "") + '</td><td class="trong"></td><td class="trong"></td></tr>';
+  };
+  h += '<h2>3. Bảng kê đi chợ cho ' + so(N) + ' suất</h2><table><thead><tr><th class="giua" style="width:6%">TT</th><th>Nguyên liệu</th><th class="so" style="width:13%">Cần mua</th>' +
+    '<th class="so" style="width:15%">Đơn giá</th><th class="so" style="width:13%">Thành tiền (đ)</th><th class="giua" style="width:11%">Thực mua</th><th class="giua" style="width:12%">Thực chi (đ)</th></tr></thead><tbody>' +
+    t.nhom.map(n => '<tr class="nhom"><td colspan="7">' + esc(n.ten) + '</td></tr>' + n.dong.map(hangNL).join("")).join("") +
+    '<tr class="cong"><td colspan="4">Cộng tiền thực phẩm</td><td class="so">' + so(t.tongCho) + '</td><td class="trong"></td><td class="trong"></td></tr></tbody></table>';
+  const chenh = t.dm > 0 ? t.dm * N - t.tong : 0;
+  h += '<div class="tong-tien"><table><tbody>' +
+    '<tr><td>Tiền thực phẩm (' + so(N) + ' suất)</td><td class="so">' + tien(t.tongCho) + '</td></tr>' +
+    '<tr><td>Chi phí khác: ' + tien(t.khacSuat) + ' × ' + so(N) + ' suất</td><td class="so">' + tien(t.khacSuat * N) + '</td></tr>' +
+    '<tr class="lon"><td>Tổng cộng</td><td class="so">' + tien(t.tong) + '</td></tr></tbody></table><table><tbody>' +
+    '<tr><td>Bình quân một suất</td><td class="so"><b>' + tien(t.bqSuat) + '</b></td></tr>' +
+    (t.dm > 0 ? '<tr><td>Định mức: ' + tien(t.dm) + ' × ' + so(N) + ' suất</td><td class="so">' + tien(t.dm * N) + '</td></tr>' +
+      '<tr class="lon"><td>' + (chenh >= 0 ? "Còn dư so với định mức" : "Vượt định mức") + '</td><td class="so ' + (chenh >= 0 ? "dat" : "chua") + '">' + tien(Math.abs(chenh)) + '</td></tr>'
+      : '<tr><td colspan="2" class="ghi-chu">Chưa đặt định mức tiền ăn (Cài đặt, Chi phí và đi chợ).</td></tr>') +
+    '</tbody></table></div>' +
+    '<p class="ghi-chu">Lượng cần mua đã cộng phần bỏ đi khi sơ chế (vỏ, xương, gốc rễ) và làm tròn lên cho dễ mua. Thành tiền = lượng cần mua × đơn giá. ' +
+    'Giá: ' + esc(D.gia_ghi_chu || "theo bảng giá nguyên liệu của webapp") + '</p>' +
+    (t.thieuGia.length ? '<p class="canh-bao">Chưa có giá: ' + t.thieuGia.map(d => esc(d.ten)).join(", ") + '. Nhập giá ở tab Nguyên liệu để tính đủ tiền chợ.</p>' : "") +
+    (t.giaCu.length ? '<p class="canh-bao">Giá đã cũ hơn 30 ngày: ' + t.giaCu.map(d => esc(d.ten)).join(", ") + '. Nên cập nhật trước khi đi chợ.</p>' : "");
+
+  /* 4. phương án tiết kiệm */
+  if ((m.tiet_kiem || []).length) {
+    /* in tối đa 3 cách bớt tiền nhiều nhất cho gọn phiếu; đủ các cách xem trong webapp */
+    const pa = m.tiet_kiem.slice().sort((a, b) => b.tiet_kiem - a.tiet_kiem).slice(0, 3);
+    h += '<div class="khoi"><h2>4. Phương án tiết kiệm (vẫn giữ mâm cân đối)</h2><ul class="pa">' + pa.map(p =>
+      '<li>Đổi ' + (p.loai === "canh" ? "canh" : "tráng miệng") + ' sang <b>' + esc(p.ten) + '</b>: bớt <b>' + tien(p.tiet_kiem) + '</b> mỗi suất, khoảng <b>' +
+      tien(p.tiet_kiem * N) + '</b> cho ' + so(N) + ' suất; điểm cân đối ' + p.diem + ' (hiện ' + m.diem + ').</li>').join("") +
+      '</ul><p class="ghi-chu">' + (m.tiet_kiem.length > pa.length ? "Còn " + (m.tiet_kiem.length - pa.length) + " cách khác trong webapp. " : "") +
+      'Muốn đổi, bấm nút “Đổi” ở mục Phương án tiết kiệm trong webapp rồi bấm Cập nhật trên phiếu này.</p></div>';
+  }
+
+  /* 5, 6: trang sau */
+  const coCach = $("#co-cach").checked, coKiem = $("#co-kiem").checked;
+  let so_muc = (m.tiet_kiem || []).length ? 5 : 4;
+  if (coCach) {
+    const mon = [m.mon, m.canh, m.trang_mieng].filter(x => x && x.cach_lam && x.cach_lam.length);
+    h += '<h2>' + (so_muc++) + '. Cách chế biến</h2><div class="cach">' + (mon.length ? '<div class="luoi">' + mon.map(x =>
+      '<div class="mon"><h3>' + esc(x.ten) + '</h3><ol>' + x.cach_lam.map(b => '<li>' + esc(b) + '</li>').join("") + '</ol></div>').join("") + '</div>'
+      : '<p class="ghi-chu">Các món trong mâm chưa có hướng dẫn cách làm.</p>') + '</div>';
+  }
+  if (coKiem) {
+    const buoc = (ten, mau, ds) => '<tr><td style="width:24%"><b>' + ten + '</b><span class="nho">' + mau + '</span></td><td>' +
+      ds.map(x => '<div><span class="o-vuong"></span>' + x + '</div>').join("") + '</td></tr>';
+    const mau = [[m.mon.ten, "≥ 100 g"], tb.loai === "com" ? ["Cơm", "≥ 100 g"] : null, m.canh ? [m.canh.ten, /canh/i.test(m.canh.ten) ? "≥ 150 ml" : "≥ 100 g"] : null,
+                 m.trang_mieng ? [m.trang_mieng.ten, "≥ 100 g"] : null].filter(Boolean);
+    h += '<div class="khoi"><h2>' + (so_muc++) + '. Kiểm thực ba bước và lưu mẫu thức ăn</h2>' +
+      '<table><tbody>' +
+      buoc("Bước 1. Trước khi chế biến", "Ghi Mẫu số 1", ["Kiểm tra thực phẩm nhập vào: chủng loại, số lượng, nguồn gốc, hóa đơn, chứng từ đi kèm",
+        "Đánh giá cảm quan (màu, mùi, độ tươi, bao bì nguyên vẹn), hạn sử dụng",
+        'Giờ nhận hàng: <span class="ke"></span> Người kiểm tra: <span class="ke" style="min-width:45mm"></span>']) +
+      buoc("Bước 2. Trong khi chế biến", "Ghi Mẫu số 2", ["Vệ sinh khu vực chế biến, dụng cụ, trang phục người chế biến",
+        'Thời gian bắt đầu <span class="ke"></span> và kết thúc chế biến <span class="ke"></span> từng món; nấu chín kỹ',
+        "Đánh giá cảm quan món ăn sau khi chế biến"]) +
+      buoc("Bước 3. Trước khi ăn", "Ghi Mẫu số 3", ["Đối chiếu các món ăn với thực đơn; kiểm tra việc chia thức ăn, khu vực bày thức ăn",
+        "Vệ sinh bát, đĩa, khay, dụng cụ ăn uống"]) +
+      '</tbody></table>' +
+      '<table style="margin-top:2.5mm"><thead><tr><th>Mẫu lưu</th><th class="giua" style="width:15%">Khối lượng</th><th class="giua" style="width:15%">Giờ lấy mẫu</th>' +
+      '<th class="giua" style="width:22%">Người lấy mẫu</th><th class="giua" style="width:17%">Giờ hủy mẫu</th></tr></thead><tbody>' +
+      mau.map(x => '<tr><td>' + esc(x[0]) + '</td><td class="giua">' + x[1] + '</td><td></td><td></td><td></td></tr>').join("") + '</tbody></table>' +
+      '<p class="ghi-chu">Theo hướng dẫn tại Quyết định 1246/QĐ-BYT: mỗi món lưu ít nhất 100 g (thức ăn đặc) hoặc 150 ml (thức ăn lỏng) trong dụng cụ có nắp đậy kín, ' +
+      'đã rửa sạch và tiệt trùng; bảo quản ở 2–8 °C, lưu ít nhất 24 giờ kể từ khi lấy mẫu; nhãn ghi bữa ăn, tên mẫu, thời gian lấy và người lấy mẫu.</p></div>';
+  }
+  h += '<div class="khoi"><p class="noi-ngay">.................., ngày ...... tháng ...... năm ' + esc(String(D.ngay || "").slice(0, 4) || "......") + '</p>' +
+    '<div class="ky"><div><b>Người lập phiếu</b><small>(Ký, ghi rõ họ tên)</small></div><div><b>Người đi chợ, nhận hàng</b><small>(Ký, ghi rõ họ tên)</small></div>' +
+    '<div><b>Bếp trưởng</b><small>(Ký, ghi rõ họ tên)</small></div><div><b>Hiệu trưởng duyệt</b><small>(Ký, ghi rõ họ tên)</small></div></div></div>' +
+    '<div class="chan">Lập bằng Máy tư vấn dinh dưỡng học đường “Hôm nay ăn gì?”' + (tt.nguoi_thuc_hien ? " · " + esc(tt.nguoi_thuc_hien) : "") +
+    '. Điểm cân đối theo Hướng dẫn dinh dưỡng bữa ăn học đường (Bộ Y tế); số liệu dinh dưỡng ước tính từ Bảng thành phần thực phẩm Việt Nam, ' +
+    'chỉ để tham khảo, không thay cho tư vấn của chuyên gia dinh dưỡng.</div></div>';
+  $("#noi-dung").innerHTML = h;
+}
+
+/* ---------- Excel ---------- */
+function taiExcel() {
+  if (!window.XLSX_NHO) { alert("Chưa tải được công cụ tạo Excel (xlsx_nho.js)."); return; }
+  const m = D.mam, mt = D.muc_tieu || {}, t = tinh(), N = soSuat, tt = D.thong_tin || {};
+  const S = (v, s) => ({v: v, s: s || "chu"}), SO = (v, s) => ({v: Math.round(v * 100) / 100, s: s || "so"});
+  /* trang 1: kê chợ, có công thức để sửa giá, số lượng ngay trong Excel */
+  const d1 = [[S((tt.don_vi ? tt.don_vi + " · " : "") + "BẢNG KÊ ĐI CHỢ", "tieu_de")],
+    [S((mt.ten_bua || "Bữa ăn") + " ngày " + (D.ngay_hien_thi || ngayVN(D.ngay)) + " · " + (mt.ten_ho_so || ""), "ghi_chu")],
+    [S("Món chính: " + m.mon.ten + (m.canh ? " · Canh: " + m.canh.ten : "") + (m.trang_mieng ? " · Tráng miệng: " + m.trang_mieng.ten : "") + (D.chot ? "" : " (bản nháp, chưa chốt)"), "ghi_chu")],
+    [S("Số suất", "chu_dam"), SO(N, "so_dam")],
+    [],
+    ["STT", "Nhóm", "Nguyên liệu", "Ăn được mỗi suất (g)", "Thải bỏ (%)", "Cần mua", "Đơn vị", "Đơn giá (đ)", "Thành tiền (đ)", "Thực mua", "Thực chi (đ)", "Ghi chú"].map(x => S(x, "dau"))];
+  const dau = d1.length + 1;
+  let stt = 0;
+  t.nhom.forEach(n => n.dong.forEach(d => {
+    stt += 1;
+    const r = d1.length + 1;
+    d1.push([SO(stt), S(n.ten), S(d.ten), SO(d.g, "so_le"), SO(d.thai_bo, "so_le"), SO(d.luong.sl, "so_le"), S(d.luong.dv), d.co_gia ? SO(d.gia) : {v: null, s: "so"},
+             {f: "F" + r + "*H" + r, v: d.thanh_tien, s: "so"}, S(""), S(""), S(d.co_gia ? (d.gia_ngay ? "giá ngày " + ngayVN(d.gia_ngay) : "") : "chưa có giá")]);
+  }));
+  const cuoi = d1.length;
+  const rTP = cuoi + 1, rKhac = cuoi + 2, rTong = cuoi + 3, rBQ = cuoi + 4;
+  d1.push([null, S("Cộng tiền thực phẩm", "chu_dam"), null, null, null, null, null, null, {f: "SUM(I" + dau + ":I" + cuoi + ")", v: t.tongCho, s: "so_dam"}, null, {f: "SUM(K" + dau + ":K" + cuoi + ")", v: 0, s: "so_dam"}]);
+  d1.push([null, S("Chi phí khác mỗi suất (gas, điện, gia vị lặt vặt)"), null, null, null, null, null, SO(t.khacSuat), {f: "H" + rKhac + "*B4", v: t.khacSuat * N, s: "so"}]);
+  d1.push([null, S("TỔNG CỘNG", "chu_dam"), null, null, null, null, null, null, {f: "I" + rTP + "+I" + rKhac, v: t.tong, s: "so_dam"}]);
+  d1.push([null, S("Bình quân một suất"), null, null, null, null, null, null, {f: "ROUND(I" + rTong + "/B4,0)", v: Math.round(t.bqSuat), s: "so_dam"}]);
+  if (t.dm > 0) {
+    d1.push([null, S("Định mức một suất"), null, null, null, null, null, SO(t.dm), {f: "H" + (rBQ + 1) + "*B4", v: t.dm * N, s: "so"}]);
+    d1.push([null, S("Còn dư (+) / vượt (−) so với định mức", "chu_dam"), null, null, null, null, null, null, {f: "I" + (rBQ + 1) + "-I" + rTong, v: t.dm * N - t.tong, s: "so_dam"}]);
+  }
+  d1.push([]);
+  d1.push([S("Cần mua đã cộng phần bỏ đi khi sơ chế và làm tròn lên. Sửa Đơn giá hoặc Cần mua, Excel tự tính lại. Giá: " + (D.gia_ghi_chu || ""), "ghi_chu")]);
+  /* trang 2: thực đơn, định lượng */
+  const d2 = [[S("THỰC ĐƠN VÀ ĐỊNH LƯỢNG", "tieu_de")], [S((mt.ten_bua || "") + " ngày " + (D.ngay_hien_thi || ""), "ghi_chu")], [],
+    ["Phần", "Món", "Nguyên liệu", "Một suất (g ăn được)", "Cho " + N + " suất (kg ăn được)"].map(x => S(x, "dau"))];
+  const tenMon = {mon: m.mon.ten, com: "Cơm trắng", canh: (m.canh || {}).ten, trang_mieng: (m.trang_mieng || {}).ten};
+  (m.dinh_luong || []).forEach(dl => {
+    const x = nguyenLieu(dl.id);
+    d2.push([S(TEN_PHAN[dl.nguon] || dl.nguon), S(tenMon[dl.nguon] || ""), S(x.ten || dl.id), SO(dl.g, "so_le"), SO(Math.round(dl.g * N / 10) / 100, "so_le")]);
+  });
+  /* trang 3: dinh dưỡng */
+  const tg = m.tong, tl = m.ty_le || {};
+  const d3 = [[S("GIÁ TRỊ DINH DƯỠNG MỘT SUẤT", "tieu_de")], [S("Điểm cân đối: " + m.diem + "/100, " + m.xep_loai, "ghi_chu")], [],
+    ["Chỉ tiêu", "Một suất", "Đơn vị", "Khuyến nghị bữa"].map(x => S(x, "dau")),
+    [S("Năng lượng"), SO(tg.kcal), S("kcal"), S(mt.kcal_min + "–" + mt.kcal_max + " kcal")],
+    [S("Chất đạm"), SO(tg.dam, "so_le"), S("g (" + Math.round(tl.dam || 0) + "% năng lượng)"), S("13–20% năng lượng")],
+    [S("Chất béo"), SO(tg.beo, "so_le"), S("g (" + Math.round(tl.beo || 0) + "% năng lượng)"), S("20–30% năng lượng")],
+    [S("Bột đường"), SO(tg.bot, "so_le"), S("g (" + Math.round(tl.bot || 0) + "% năng lượng)"), S("55–65% năng lượng")],
+    [S("Rau xanh"), SO(tg.rau_g), S("g"), S("≥ " + mt.rau_min + " g")],
+    [S("Chất xơ"), SO(tg.xo, "so_le"), S("g"), S("")],
+    [S("Natri"), SO(tg.natri), S("mg"), S("≤ " + mt.natri_max + " mg")],
+    [S("Đường thêm vào"), SO(tg.duong, "so_le"), S("g"), S("≤ " + mt.duong_max + " g")]];
+  (m.vi_chat || []).forEach(v => d3.push([S(v.ten), SO(v.gia_tri, "so_le"), S(v.don_vi), S(v.muc_tieu + " " + v.don_vi)]));
+  const blob = XLSX_NHO.tao([
+    {ten: "Kê chợ", cot: [6, 22, 26, 12, 9, 10, 8, 12, 14, 10, 12, 18], gop: ["A1:L1", "A2:L2", "A3:L3"], dong: d1},
+    {ten: "Thực đơn", cot: [14, 30, 28, 14, 16], gop: ["A1:E1", "A2:E2"], dong: d2},
+    {ten: "Dinh dưỡng", cot: [20, 12, 24, 22], gop: ["A1:D1", "A2:D2"], dong: d3}]);
+  XLSX_NHO.tai(blob, "ke-cho-" + (D.ngay || "hom-nay") + "-" + N + "-suat.xlsx");
+}
+
+/* ---------- điều khiển ---------- */
+$("#so-suat").addEventListener("change", e => { soSuat = Math.max(1, Math.min(5000, parseInt(e.target.value, 10) || 1)); e.target.value = soSuat; ve(); });
+$("#co-cach").onchange = ve; $("#co-kiem").onchange = ve;
+$("#in").onclick = () => window.print();
+$("#tai-excel").onclick = taiExcel;
+$("#lam-moi").onclick = async () => {
+  try {
+    if (window.opener && window.opener.phieuLamMoi) { const d = await window.opener.phieuLamMoi(); if (d) { d.so_suat = soSuat; nhan(d); return; } }
+  } catch (e) { /* cửa sổ webapp đã đóng */ }
+  alert("Không lấy được dữ liệu mới: cửa sổ webapp đã đóng. Hãy mở lại phiếu từ webapp.");
+};
+batDau(0);
+</script>
+</body>
+</html>
